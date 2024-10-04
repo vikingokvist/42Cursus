@@ -14,31 +14,26 @@
 
 static int	ft_checkpoint(int fd, char **temp, char **total_chars)
 {
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > 3 || BUFFER_SIZE <= 0)
 		return (0);
 	*temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (*temp == NULL)
-		return (0);
+		return (free(*temp), 0);
 	if (*total_chars == NULL)
 	{
-		*total_chars = ft_strdup("");
+		*total_chars = ft_strsave("");
 		if (*total_chars == NULL)
-		{
-            			free(*temp);
-            			return (0);
-            		}
-            	}
-            	return (1);
+			return (free(*temp), 0);
+	}
+	return (1);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*total_chars = NULL; //Hola_como_estas_?\nYo
-	char	*temp = NULL;//Hola/_com/o_es/tas_/?\nYo
-	char	*res = NULL;
-	ssize_t	bytes_read; //bytes read for Error handling
-	int	len;
-	
+	ssize_t		bytes_read;
+	static char	*total_chars;
+	char		*temp;
+
 	if (ft_checkpoint(fd, &temp, &total_chars) == 0)
 		return (NULL);
 	while (ft_strchrlen(total_chars, '\n') == ft_strchrlen(total_chars, '\0'))
@@ -53,8 +48,8 @@ char	*get_next_line(int fd)
 	}
 	free(temp);
 	if (total_chars[0] == '\0')
-		return (NULL);
-	res = ft_save_res(total_chars);
+		return (free(total_chars), NULL);
+	temp = ft_strsave(total_chars);
 	total_chars = ft_save_static(total_chars);
-	return (res);
+	return (temp);
 }

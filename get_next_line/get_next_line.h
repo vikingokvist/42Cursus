@@ -20,10 +20,8 @@
 # endif
 
 char	*get_next_line(int fd);
-//static int	ft_checkpoint(int fd, char **temp, char **total_chars);
-char	*ft_strdup(const char *s);
 size_t	ft_strchrlen(const char *s, char c);
-char	*ft_save_res(char *total_chars);
+char	*ft_strsave(char *total_chars);
 char	*ft_save_static(char *total_chars);
 char	*ft_strjoin(char *total_chars, char *temp);
 
