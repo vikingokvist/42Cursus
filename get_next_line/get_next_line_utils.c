@@ -15,7 +15,7 @@
 long long	ft_strlen(const char *s)
 {
 	long long	len;
-	
+
 	len = 0;
 	while (s[len])
 		len++;
@@ -37,7 +37,7 @@ char	*ft_strchr(const char *s, int c)
 
 char	*ft_strjoin_free(char *total_chars, char *temp)
 {
-	char	*res;
+	char		*res;
 	long long	i;
 	long long	j;
 
@@ -61,16 +61,16 @@ char	*ft_strjoin_free(char *total_chars, char *temp)
 	return (res);
 }
 
-void	*ft_calloc_z(size_t nmemb, long long size)
+void	*ft_calloc_z(long long nmemb, size_t size)
 {
 	unsigned char	*temp;
-	long long	i;
+	long long		i;
 
 	temp = malloc(nmemb * size);
 	if (temp == NULL)
 		return (NULL);
 	i = 0;
-	while (i < size)
+	while (i < nmemb)
 		temp[i++] = '\0';
 	return (temp);
 }

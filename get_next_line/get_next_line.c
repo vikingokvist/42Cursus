@@ -14,19 +14,19 @@
 
 char	*ft_save_static(char *total_chars)
 {
-	char	*new_chars;
+	char		*new_chars;
 	long long	i;
 	long long	j;
 
 	i = 0;
-	while (total_chars[i] != '\0' && total_chars[i] != '\n')
+	while (total_chars[i] && total_chars[i] != '\n')
 		i++;
 	if (total_chars[i] == '\0')
 		return (free(total_chars), NULL);
-	new_chars = ft_calloc_z(sizeof(char), (ft_strlen(total_chars) - i + 1));
+	new_chars = ft_calloc_z(ft_strlen(total_chars) - i + 1, sizeof(char));
 	i++;
 	j = 0;
-	while (total_chars[i] != '\0')
+	while (total_chars[i])
 		new_chars[j++] = total_chars[i++];
 	free(total_chars);
 	return (new_chars);
@@ -34,34 +34,34 @@ char	*ft_save_static(char *total_chars)
 
 char	*ft_save_line(char *total_chars)
 {
-	char	*line;
+	char		*line;
 	long long	i;
 
 	i = 0;
 	if (total_chars[i] == '\0')
 		return (NULL);
-	while (total_chars[i] != '\0' && total_chars[i] != '\n')
+	while (total_chars[i] && total_chars[i] != '\n')
 		i++;
-	line = ft_calloc_z(sizeof(char), i + 2);
+	line = ft_calloc_z(i + 2, sizeof(char));
 	i = 0;
-	while (total_chars[i] != '\0' && total_chars[i] != '\n')
+	while (total_chars[i] && total_chars[i] != '\n')
 	{
 		line[i] = total_chars[i];
 		i++;
 	}
-	if (total_chars[i] == '\n')
+	if (total_chars[i] == '\n' && total_chars[i])
 		line[i] = '\n';
 	return (line);
 }
 
 char	*ft_read_line(int fd, char *total_chars)
 {
-	char	*temp;
+	char		*temp;
 	long long	bytes_read;
 
 	if (!total_chars)
-		total_chars = ft_calloc_z(sizeof(char), 1);
-	temp = ft_calloc_z(sizeof(char), BUFFER_SIZE + 1);
+		total_chars = ft_calloc_z(1, 1);
+	temp = ft_calloc_z(BUFFER_SIZE + 1, sizeof(char));
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
@@ -80,7 +80,7 @@ char	*ft_read_line(int fd, char *total_chars)
 char	*get_next_line(int fd)
 {
 	static char	*total_chars;
-	char	*line;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);

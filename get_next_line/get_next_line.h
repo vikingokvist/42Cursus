@@ -18,13 +18,13 @@
 #  define BUFFER_SIZE 42
 # endif
 
-char	*get_next_line(int fd);
-char	*ft_save_static(char *total_chars);
-char	*ft_save_line(char *total_chars);
-char	*ft_read_line(int fd, char *total_chars);
-char	*ft_strjoin_free(char *total_chars, char *temp);
-char	*ft_strchr(const char *s, int c);
+char		*get_next_line(int fd);
+char		*ft_save_static(char *total_chars);
+char		*ft_save_line(char *total_chars);
+char		*ft_read_line(int fd, char *total_chars);
+char		*ft_strjoin_free(char *total_chars, char *temp);
+char		*ft_strchr(const char *s, int c);
 long long	ft_strlen(const char *s);
-void	*ft_calloc_z(size_t nmemb, long long size);
+void		*ft_calloc_z(long long nmemb, size_t size);
 
 #endif
