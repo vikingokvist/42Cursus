@@ -12,39 +12,46 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strchrlen(const char *s, char c)
+long long	ft_strlen(const char *s)
 {
-	size_t	len;
-
+	long long	len;
+	
 	len = 0;
-	while (s[len] != '\0')
-	{
-		if (s[len] == c)
-			return (len);
+	while (s[len])
 		len++;
-	}
 	return (len);
 }
 
-char	*ft_strjoin(char *total_chars, char *temp)
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (*s == (char)c)
+		return ((char *)s);
+	return (NULL);
+}
+
+char	*ft_strjoin_free(char *total_chars, char *temp)
 {
 	char	*res;
-	size_t	s1_len;
-	size_t	i;
-	size_t	j;
+	long long	i;
+	long long	j;
 
-	s1_len = ft_strchrlen(total_chars, '\0');
-	res = malloc((s1_len + ft_strchrlen(temp, '\0') + 1) * sizeof(char));
+	res = malloc(ft_strlen(total_chars) + ft_strlen(temp) + 1);
 	if (res == NULL)
-		return (free(total_chars), free(temp), NULL);
+		return (NULL);
 	i = 0;
-	while (i < s1_len)
+	while (i < ft_strlen(total_chars))
 	{
 		res[i] = total_chars[i];
 		i++;
 	}
 	j = 0;
-	while (j < ft_strchrlen(temp, '\0'))
+	while (j < ft_strlen(temp))
 	{
 		res[i + j] = temp[j];
 		j++;
@@ -54,47 +61,16 @@ char	*ft_strjoin(char *total_chars, char *temp)
 	return (res);
 }
 
-char	*ft_strsave(char *total_chars)
+void	*ft_calloc_z(size_t nmemb, long long size)
 {
-	char	*res;
-	size_t	len;
-	size_t	i;
+	unsigned char	*temp;
+	long long	i;
 
-	len = ft_strchrlen(total_chars, '\n');
-	res = malloc((len + 1) * sizeof(char));
-	if (res == NULL)
-		return (free(total_chars), NULL);
+	temp = malloc(nmemb * size);
+	if (temp == NULL)
+		return (NULL);
 	i = 0;
-	while (i <= len)
-	{
-		res[i] = total_chars[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}
-
-char	*ft_save_static(char *total_chars)
-{
-	char	*new_total_chars;
-	size_t	start_len;
-	size_t	i;
-	size_t	len;
-
-	start_len = ft_strchrlen(total_chars, '\n');
-	len = ft_strchrlen(total_chars, '\0') - start_len;
-	if (len <= 0)
-		return (free(total_chars), NULL);
-	new_total_chars = malloc((len + 1) * sizeof(char));
-	if (new_total_chars == NULL)
-		return (free(total_chars), NULL);
-	i = 0;
-	while (i <= len)
-	{
-		new_total_chars[i] = total_chars[start_len + i + 1];
-		i++;
-	}
-	new_total_chars[i] = '\0';
-	free(total_chars);
-	return (new_total_chars);
+	while (i < size)
+		temp[i++] = '\0';
+	return (temp);
 }

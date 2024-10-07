@@ -12,44 +12,82 @@
 
 #include "get_next_line.h"
 
-static int	ft_checkpoint(int fd, char **temp, char **total_chars)
+char	*ft_save_static(char *total_chars)
 {
-	if (fd < 0 || fd > 3 || BUFFER_SIZE <= 0)
-		return (0);
-	*temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (*temp == NULL)
-		return (free(*temp), 0);
-	if (*total_chars == NULL)
+	char	*new_chars;
+	long long	i;
+	long long	j;
+
+	i = 0;
+	while (total_chars[i] != '\0' && total_chars[i] != '\n')
+		i++;
+	if (total_chars[i] == '\0')
+		return (free(total_chars), NULL);
+	new_chars = ft_calloc_z(sizeof(char), (ft_strlen(total_chars) - i + 1));
+	i++;
+	j = 0;
+	while (total_chars[i] != '\0')
+		new_chars[j++] = total_chars[i++];
+	free(total_chars);
+	return (new_chars);
+}
+
+char	*ft_save_line(char *total_chars)
+{
+	char	*line;
+	long long	i;
+
+	i = 0;
+	if (total_chars[i] == '\0')
+		return (NULL);
+	while (total_chars[i] != '\0' && total_chars[i] != '\n')
+		i++;
+	line = ft_calloc_z(sizeof(char), i + 2);
+	i = 0;
+	while (total_chars[i] != '\0' && total_chars[i] != '\n')
 	{
-		*total_chars = ft_strsave("");
-		if (*total_chars == NULL)
-			return (free(*temp), 0);
+		line[i] = total_chars[i];
+		i++;
 	}
-	return (1);
+	if (total_chars[i] == '\n')
+		line[i] = '\n';
+	return (line);
+}
+
+char	*ft_read_line(int fd, char *total_chars)
+{
+	char	*temp;
+	long long	bytes_read;
+
+	if (!total_chars)
+		total_chars = ft_calloc_z(sizeof(char), 1);
+	temp = ft_calloc_z(sizeof(char), BUFFER_SIZE + 1);
+	bytes_read = 1;
+	while (bytes_read > 0)
+	{
+		bytes_read = read(fd, temp, BUFFER_SIZE);
+		if (bytes_read == -1)
+			return (free(temp), free(total_chars), NULL);
+		temp[bytes_read] = '\0';
+		total_chars = ft_strjoin_free(total_chars, temp);
+		if (ft_strchr(total_chars, '\n'))
+			break ;
+	}
+	free(temp);
+	return (total_chars);
 }
 
 char	*get_next_line(int fd)
 {
-	ssize_t		bytes_read;
 	static char	*total_chars;
-	char		*temp;
+	char	*line;
 
-	if (ft_checkpoint(fd, &temp, &total_chars) == 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	while (ft_strchrlen(total_chars, '\n') == ft_strchrlen(total_chars, '\0'))
-	{
-		bytes_read = read(fd, temp, BUFFER_SIZE);
-		if (bytes_read == -1)
-			return (free(temp), NULL);
-		if (bytes_read == 0)
-			break ;
-		temp[bytes_read] = '\0';
-		total_chars = ft_strjoin(total_chars, temp);
-	}
-	free(temp);
-	if (total_chars[0] == '\0')
-		return (free(total_chars), NULL);
-	temp = ft_strsave(total_chars);
+	total_chars = ft_read_line(fd, total_chars);
+	if (total_chars == NULL)
+		return (NULL);
+	line = ft_save_line(total_chars);
 	total_chars = ft_save_static(total_chars);
-	return (temp);
+	return (line);
 }
