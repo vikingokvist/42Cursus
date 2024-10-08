@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctommasi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 10:39:32 by ctommasi          #+#    #+#             */
-/*   Updated: 2024/09/30 10:39:34 by ctommasi         ###   ########.fr       */
+/*   Created: 2024/10/08 12:54:22 by ctommasi          #+#    #+#             */
+/*   Updated: 2024/10/08 12:54:25 by ctommasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	*ft_calloc_z(long nmemb, size_t size)
 {

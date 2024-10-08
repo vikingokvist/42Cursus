@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctommasi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 10:39:20 by ctommasi          #+#    #+#             */
-/*   Updated: 2024/09/30 10:39:22 by ctommasi         ###   ########.fr       */
+/*   Created: 2024/10/08 12:53:25 by ctommasi          #+#    #+#             */
+/*   Updated: 2024/10/08 12:53:30 by ctommasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
-	static char	*total_chars;
+	static char	*total_chars[FOPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0
+		|| fd >= FOPEN_MAX)
 	{
-		if (total_chars)
+		if (fd >= 0 && fd < FOPEN_MAX && total_chars[fd])
 		{
-			free(total_chars);
-			total_chars = NULL;
+			free(total_chars[fd]);
+			total_chars[fd] = NULL;
 		}
 		return (NULL);
 	}
-	total_chars = ft_read_line(fd, total_chars);
-	if (total_chars == NULL)
+	total_chars[fd] = ft_read_line(fd, total_chars[fd]);
+	if (total_chars[fd] == NULL)
 		return (NULL);
-	line = ft_save_line(total_chars);
-	total_chars = ft_save_static(total_chars);
+	line = ft_save_line(total_chars[fd]);
+	total_chars[fd] = ft_save_static(total_chars[fd]);
 	return (line);
 }
 
@@ -43,7 +44,7 @@ char	*ft_read_line(int fd, char *total_chars)
 		total_chars = ft_calloc_z(1, 1);
 	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (temp == NULL)
-		return (NULL);
+		return (free(total_chars), NULL);
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
