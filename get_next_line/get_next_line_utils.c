@@ -12,10 +12,10 @@
 
 #include "get_next_line.h"
 
-void	*ft_calloc_z(long nmemb, size_t size)
+void	*ft_calloc_z(size_t nmemb, size_t size)
 {
 	unsigned char	*temp;
-	long			i;
+	size_t			i;
 
 	temp = malloc(nmemb * size);
 	if (temp == NULL)
@@ -29,15 +29,15 @@ void	*ft_calloc_z(long nmemb, size_t size)
 char	*ft_strjoin_free(char *total_chars, char *temp)
 {
 	char	*res;
-	long	i;
-	long	total_len;
-	long	temp_len;
+	size_t	i;
+	size_t	total_len;
+	size_t	temp_len;
 
 	total_len = ft_strlen(total_chars);
 	temp_len = ft_strlen(temp);
 	res = malloc(total_len + temp_len + 1);
 	if (res == NULL)
-		return (NULL);
+		return (free(total_chars), NULL);
 	i = 0;
 	while (i < total_len)
 	{
@@ -67,9 +67,9 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-long	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	long	len;
+	size_t	len;
 
 	len = 0;
 	while (s[len])

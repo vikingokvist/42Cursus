@@ -38,10 +38,12 @@ char	*get_next_line(int fd)
 char	*ft_read_line(int fd, char *total_chars)
 {
 	char	*temp;
-	long	bytes_read;
+	ssize_t	bytes_read;
 
-	if (!total_chars)
+	if (total_chars == NULL)
 		total_chars = ft_calloc_z(1, 1);
+	if (total_chars == NULL)
+		return (NULL);
 	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (temp == NULL)
 		return (free(total_chars), NULL);
@@ -53,17 +55,18 @@ char	*ft_read_line(int fd, char *total_chars)
 			return (free(temp), free(total_chars), NULL);
 		temp[bytes_read] = '\0';
 		total_chars = ft_strjoin_free(total_chars, temp);
+		if (total_chars == NULL)
+			return (free(temp), free(total_chars), NULL);
 		if (ft_strchr(total_chars, '\n'))
 			break ;
 	}
-	free(temp);
-	return (total_chars);
+	return (free(temp), total_chars);
 }
 
 char	*ft_save_line(char *total_chars)
 {
 	char	*line;
-	long	i;
+	size_t	i;
 
 	i = 0;
 	if (total_chars[i] == '\0')
@@ -85,8 +88,8 @@ char	*ft_save_line(char *total_chars)
 char	*ft_save_static(char *total_chars)
 {
 	char	*new_chars;
-	long	i;
-	long	j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	while (total_chars[i] && total_chars[i] != '\n')
