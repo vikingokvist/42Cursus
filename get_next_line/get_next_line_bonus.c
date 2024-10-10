@@ -74,6 +74,8 @@ char	*ft_save_line(char *total_chars)
 	while (total_chars[i] && total_chars[i] != '\n')
 		i++;
 	line = ft_calloc_z(i + 2, sizeof(char));
+	if (line == NULL)
+		return (NULL);
 	i = 0;
 	while (total_chars[i] && total_chars[i] != '\n')
 	{
@@ -97,6 +99,8 @@ char	*ft_save_static(char *total_chars)
 	if (total_chars[i] == '\0')
 		return (free(total_chars), NULL);
 	new_chars = ft_calloc_z(ft_strlen(total_chars) - i + 1, sizeof(char));
+	if (new_chars == NULL)
+		return (NULL);
 	i++;
 	j = 0;
 	while (total_chars[i])
