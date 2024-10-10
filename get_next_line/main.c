@@ -10,9 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*#include "get_next_line.h"
+#include "get_next_line.h"
+#include "get_next_line_bonus.h"
+int	mandatory(int argc, char *argv[]);
+int	bonus(int argc, char *argv[]);
 
 int	main(int argc, char *argv[])
+{
+	if (argc > 1)
+	{
+		//mandatory(argc, argv);
+		bonus(argc, argv);
+	}
+	return (0);
+}
+
+int	mandatory(int argc, char *argv[])
 {
 	int	fd;
 	int	i;
@@ -20,6 +33,7 @@ int	main(int argc, char *argv[])
 	
 	if (argc != 3)
 	{
+		printf("-------------------------\n");
 		printf("\nWrong Amount of Arguments\n");
 		printf("Usage: ./a.out test0.txt 1\n");
 		printf("-------------------------\n\n");
@@ -32,31 +46,31 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	i = 0;
-	while ((line = get_next_line(fd)) != NULL && i < 100)
+	while (i < (*argv[2] - '0'))
 	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			return (printf("%s", line), free(line), 0);
 		printf("%s", line);
 		free(line);
 		i++;
 	}
-	while ((line = get_next_line(fd)) != NULL)
-		free(line);
 	close(fd);
 	return (0);
-}*/
+}
 
-#include "get_next_line_bonus.h"
-
-int	main(int argc, char *argv[])
+int	bonus(int argc, char *argv[])
 {
+	char	*line;
 	int	fd[3];
 	int	i;
 	int	j;
 	int	k;
-	char	*line;
-	
+
 	if (argc < 2)
 	{
-		printf("\n-------Wrong Amount of Arguments------\n");
+		printf("--------------------------------------\n");
+		printf("\n     Wrong Amount of Arguments      \n");
 		printf("Usage: ./a.out test0.txt test1.txt etc\n");
 		printf("--------------------------------------\n\n");
 		return (1);
@@ -67,10 +81,11 @@ int	main(int argc, char *argv[])
 		fd[i] = open(argv[i+1], O_RDONLY);
 		i++;
 	}
-	printf("-------%d\n", i);
+	//fd[0] = 42;
+	//fd[1] = -1;
 	j = 0;
 	k = 0;
-	while ((line = get_next_line(fd[j])) != NULL)
+	while ((line = get_next_line(fd[j])))
 	{
 		printf("%s", line);
 		free(line);
@@ -79,6 +94,10 @@ int	main(int argc, char *argv[])
 		if (j == i - 1)
 			j = 0;
 	}
+	close(fd[0]);
+	close(fd[1]);
+	close(fd[2]);
+	close(fd[3]);
 	free(line);
 	return (0);
 }
