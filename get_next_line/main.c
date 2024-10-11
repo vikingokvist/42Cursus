@@ -5,25 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ctommasi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 11:33:35 by ctommasi          #+#    #+#             */
-/*   Updated: 2024/09/30 11:33:37 by ctommasi         ###   ########.fr       */
+/*   Created: 2024/10/11 10:58:08 by ctommasi          #+#    #+#             */
+/*   Updated: 2024/10/11 10:58:18 by ctommasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "get_next_line_bonus.h"
-int	mandatory(int argc, char *argv[]);
-int	bonus(int argc, char *argv[]);
-
-int	main(int argc, char *argv[])
-{
-	if (argc > 1)
-	{
-		//mandatory(argc, argv);
-		bonus(argc, argv);
-	}
-	return (0);
-}
 
 int	mandatory(int argc, char *argv[])
 {
@@ -39,6 +27,9 @@ int	mandatory(int argc, char *argv[])
 		printf("-------------------------\n\n");
 		return (1);
 	}
+	//fd = -1;
+	//fd = 1;
+	//fd = 1025;
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 	{
@@ -81,8 +72,9 @@ int	bonus(int argc, char *argv[])
 		fd[i] = open(argv[i+1], O_RDONLY);
 		i++;
 	}
-	//fd[0] = 42;
-	//fd[1] = -1;
+	//fd[0] = 1;
+	//fd[0] = 1024;
+	//fd[0] = -1;
 	j = 0;
 	k = 0;
 	while ((line = get_next_line(fd[j])))
@@ -94,10 +86,20 @@ int	bonus(int argc, char *argv[])
 		if (j == i - 1)
 			j = 0;
 	}
+	free(line);
+	free(line);
 	close(fd[0]);
 	close(fd[1]);
 	close(fd[2]);
-	close(fd[3]);
-	free(line);
+	return (0);
+}
+
+int	main(int argc, char *argv[])
+{
+	if (argc > 1)
+	{
+		//mandatory(argc, argv);
+		bonus(argc, argv);
+	}
 	return (0);
 }

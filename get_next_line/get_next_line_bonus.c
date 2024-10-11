@@ -17,16 +17,8 @@ char	*get_next_line(int fd)
 	static char	*total_chars[FOPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0
-		|| fd >= FOPEN_MAX)
-	{
-		if (fd >= 0 && fd < FOPEN_MAX && total_chars[fd])
-		{
-			free(total_chars[fd]);
-			total_chars[fd] = NULL;
-		}
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FOPEN_MAX)
 		return (NULL);
-	}
 	total_chars[fd] = ft_read_line(fd, total_chars[fd]);
 	if (total_chars[fd] == NULL)
 		return (NULL);
@@ -100,7 +92,7 @@ char	*ft_save_static(char *total_chars)
 		return (free(total_chars), NULL);
 	new_chars = ft_calloc_z(ft_strlen(total_chars) - i + 1, sizeof(char));
 	if (new_chars == NULL)
-		return (NULL);
+		return (free(total_chars), NULL);
 	i++;
 	j = 0;
 	while (total_chars[i])

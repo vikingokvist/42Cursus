@@ -37,7 +37,7 @@ char	*ft_strjoin_free(char *total_chars, char *temp)
 	temp_len = ft_strlen(temp);
 	res = malloc(total_len + temp_len + 1);
 	if (res == NULL)
-		return (NULL);
+		return (free(total_chars), NULL);
 	i = 0;
 	while (i < total_len)
 	{
