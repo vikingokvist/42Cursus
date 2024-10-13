@@ -87,7 +87,6 @@ int	bonus(int argc, char *argv[])
 			j = 0;
 	}
 	free(line);
-	free(line);
 	close(fd[0]);
 	close(fd[1]);
 	close(fd[2]);
@@ -98,8 +97,8 @@ int	main(int argc, char *argv[])
 {
 	if (argc > 1)
 	{
-		//mandatory(argc, argv);
-		bonus(argc, argv);
+		mandatory(argc, argv);
+		//bonus(argc, argv);
 	}
 	return (0);
 }
