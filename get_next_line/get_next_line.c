@@ -89,7 +89,7 @@ char	*ft_save_static(char *total_chars)
 	while (total_chars[i] && total_chars[i] != '\n')
 		i++;
 	if (total_chars[i] == '\0')
-		return (free(total_chars), NULL); //IF NO NEWLINE THIS FAILS; CHANGE IT
+		return (free(total_chars), NULL);
 	new_chars = ft_calloc_z(ft_strlen(total_chars) - i + 1, sizeof(char));
 	if (new_chars == NULL)
 		return (free(total_chars), NULL);

@@ -52,14 +52,13 @@ char	*ft_strjoin_free(char *total_chars, char *temp)
 		i++;
 	}
 	res[i] = '\0';
-	free(total_chars);
-	return (res);
+	return (free(total_chars), res);
 }
 
 char	*ft_strchr(const char *s, int c)
 {
 	size_t	i;
-	
+
 	i = 0;
 	while (s[i])
 	{

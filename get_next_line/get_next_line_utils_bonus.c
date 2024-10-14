@@ -33,11 +33,13 @@ char	*ft_strjoin_free(char *total_chars, char *temp)
 	size_t	total_len;
 	size_t	temp_len;
 
+	if (!total_chars || !temp)
+		return (NULL);
 	total_len = ft_strlen(total_chars);
 	temp_len = ft_strlen(temp);
 	res = malloc(total_len + temp_len + 1);
 	if (res == NULL)
-		return (free(total_chars), NULL);
+		return (NULL);
 	i = 0;
 	while (i < total_len)
 	{
@@ -50,8 +52,7 @@ char	*ft_strjoin_free(char *total_chars, char *temp)
 		i++;
 	}
 	res[i] = '\0';
-	free(total_chars);
-	return (res);
+	return (free(total_chars), res);
 }
 
 char	*ft_strchr(const char *s, int c)
